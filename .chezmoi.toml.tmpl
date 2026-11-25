@@ -12,4 +12,4 @@ args = ['{{ "{{ .Destination }}" }}', '{{ "{{ .Source }}" }}', '{{ "{{ .Target }
     autoAdd = true
     autoCommit = true
     autoPush = true
-    commitMessageTemplate = 'dotfiles: {{ .chezmoi.hostname }} {{ now | date "2006/01/02 15:04:00" }}'
+    commitMessageTemplate = '{{ `dotfiles: {{ .chezmoi.hostname }} {{ now | date "2006/01/02 15:04:00" }}` }}'
