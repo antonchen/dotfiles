@@ -1,0 +1,16 @@
+#!/bin/bash
+if ! updates=$(apt list --upgradable 2> /dev/null|grep -c /); then
+	updates=0
+fi
+
+if [ "$updates" -ne 0 ]; then
+    echo " #$updates"
+else
+    echo " "
+fi
+
+refresh_marker="/tmp/polybar-apt-refresh-$(date +%F)"
+if [ "$(date +%H)" -eq 12 ] && [ ! -e "$refresh_marker" ]; then
+    : > "$refresh_marker"
+    sudo /usr/bin/apt-get update >/dev/null 2>&1 &
+fi

@@ -1,0 +1,127 @@
+#!/usr/bin/python3
+
+import datetime
+import os
+import subprocess
+import sys
+import time
+import urllib.request
+import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+
+state_dir = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "polybar"
+latest_file = state_dir / "arch-news-latest"
+read_file = state_dir / "arch-news-read"
+news_url = "https://archlinux.org/feeds/news/"
+
+
+def read_state(path):
+    try:
+        return path.read_text().strip()
+    except FileNotFoundError:
+        return ""
+
+
+def write_state(path, value):
+    state_dir.mkdir(parents=True, exist_ok=True)
+    path.write_text(value + "\n")
+
+
+def mark_read():
+    latest = read_state(latest_file)
+    if latest:
+        write_state(read_file, latest)
+
+
+if len(sys.argv) > 1 and sys.argv[1] == "mark-read":
+    mark_read()
+    sys.exit(0)
+
+
+def package_updates():
+    try:
+        result = subprocess.run(
+            ["yay", "-Qu"], capture_output=True, text=True, timeout=30
+        )
+        return sum(" -> " in line for line in result.stdout.splitlines())
+    except (OSError, subprocess.SubprocessError):
+        return 0
+
+
+def latest_news():
+    try:
+        with urllib.request.urlopen(news_url, timeout=10) as response:
+            root = ET.fromstring(response.read())
+        item = root.find("./channel/item/pubDate")
+        return item.text.strip() if item is not None and item.text else ""
+    except (OSError, ET.ParseError):
+        return ""
+
+
+def refresh_news():
+    current = latest_news()
+    if not current:
+        return
+    previous = read_state(latest_file)
+    if not previous:
+        write_state(latest_file, current)
+        write_state(read_file, current)
+    elif previous != current:
+        write_state(latest_file, current)
+
+
+def render(updates):
+    news_unread = read_state(latest_file) != read_state(read_file)
+    icon_color = "#F2B8B8" if news_unread else "#1793d1"
+    icon = f"%{{F{icon_color}}}%{{T1}}%{{T-}}%{{F-}}"
+    count = f" %{{F#BF616A}}#{updates}%{{F-}}" if updates else " "
+    print(icon + count, flush=True)
+
+
+updates = 0
+render(updates)
+executor = ThreadPoolExecutor(max_workers=2)
+package_future = executor.submit(package_updates)
+news_future = executor.submit(refresh_news)
+last_package_query = time.monotonic()
+last_news_query = last_package_query
+last_unread = read_state(latest_file) != read_state(read_file)
+refresh_marker = Path("/tmp") / f"polybar-yay-refresh-{datetime.date.today():%F}"
+
+while True:
+    now = time.monotonic()
+    if package_future is not None and package_future.done():
+        updates = package_future.result()
+        render(updates)
+        package_future = None
+        last_package_query = now
+
+    if news_future is not None and news_future.done():
+        news_future.result()
+        render(updates)
+        last_unread = read_state(latest_file) != read_state(read_file)
+        news_future = None
+        last_news_query = now
+
+    if package_future is None and now - last_package_query >= 600:
+        package_future = executor.submit(package_updates)
+    if news_future is None and now - last_news_query >= 600:
+        news_future = executor.submit(refresh_news)
+
+    if datetime.datetime.now().hour == 12 and not refresh_marker.exists():
+        refresh_marker.touch()
+        try:
+            subprocess.run(
+                ["sudo", "/usr/bin/yay", "-Syy"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=300,
+            )
+        except (OSError, subprocess.SubprocessError):
+            pass
+    unread = read_state(latest_file) != read_state(read_file)
+    if unread != last_unread:
+        render(updates)
+        last_unread = unread
+    time.sleep(5)

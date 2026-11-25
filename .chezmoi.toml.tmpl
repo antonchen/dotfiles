@@ -1,0 +1,15 @@
+{{ if eq .chezmoi.hostname "AntonPC" }}encryption = "gpg"
+
+[gpg]
+recipient = "211AD064458398C4"
+args = ["--quiet"]{{ end }}
+
+[merge]
+command = "chezmoi-merge-code"
+args = ['{{ "{{ .Destination }}" }}', '{{ "{{ .Source }}" }}', '{{ "{{ .Target }}" }}']
+
+[git]
+    autoAdd = true
+    autoCommit = true
+    autoPush = true
+    commitMessageTemplate = 'dotfiles: {{ .chezmoi.hostname }} {{ now | date "2006/01/02 15:04:00" }}'

@@ -1,0 +1,9 @@
+#!/bin/bash
+# Author: Anton Chen <contact@antonchen.com>
+# Create Date: 2026-11-25 12:59:53
+# Last Modified: 2026-11-25 13:00:27
+# Description: chezmoi-merge-code <Destination> <Source> <Target>
+dest="$1"; src="$2"; tgt="$3"
+base="${tgt}.base"
+cp "$tgt" "$base"
+code --locale=zh-cn --new-window --wait --merge "$dest" "$tgt" "$base" "$src"

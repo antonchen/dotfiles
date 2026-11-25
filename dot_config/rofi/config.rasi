@@ -1,0 +1,20 @@
+@theme "~/.config/rofi/spotlight-dark.rasi"
+
+configuration {
+    font: "Source Han Sans SC:style=Regular 12";
+    line-margin: 8;
+    dpi: 112;
+
+    display-run:    "";
+    display-drun:   "";
+    show-icons:     true;
+}
+
+listview {
+	lines: 10;
+	columns: 1;
+}
+
+window {
+	width: 27%;
+}

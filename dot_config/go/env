@@ -1,0 +1,2 @@
+GOPATH=/home/anton/sdk/go
+GOPROXY=direct

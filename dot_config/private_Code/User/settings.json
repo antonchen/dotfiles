@@ -1,0 +1,98 @@
+{
+    "editor.fontFamily": "Hack, 'Droid Sans Mono', 'monospace', monospace",
+    "editor.tokenColorCustomizations": {
+        "[*Light*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#000"
+                    }
+                }
+            ]
+        },
+        "[*Dark*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#fff"
+                    }
+                }
+            ]
+        },
+        "textMateRules": [
+            {
+                "name": "One Dark italic",
+                "scope": [
+                    "comment",
+                    "entity.other.attribute-name",
+                    "keyword",
+                    "markup.underline.link",
+                    "storage.modifier",
+                    "storage.type",
+                    "string.url",
+                    "variable.language.super",
+                    "variable.language.this"
+                ],
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "name": "One Dark italic reset",
+                "scope": [
+                    "keyword.operator",
+                    "keyword.other.type",
+                    "storage.modifier.import",
+                    "storage.modifier.package",
+                    "storage.type.built-in",
+                    "storage.type.function.arrow",
+                    "storage.type.generic",
+                    "storage.type.java",
+                    "storage.type.primitive"
+                ],
+                "settings": {
+                    "fontStyle": ""
+                }
+            }
+        ]
+    },
+    "editor.wordWrap": "on",
+    "security.workspace.trust.enabled": false,
+    "workbench.colorTheme": "One Dark",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.startupEditor": "none",
+    "go.toolsManagement.autoUpdate": true,
+    "go.useLanguageServer": true,
+    "[go]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "gopls": {
+        "ui.completion.usePlaceholders": true,
+        "staticcheck": true,
+        "analyses": {
+            "ST1000": false // 禁用 "at least one file in a package should have a package comment"
+        }
+    },
+    "update.showReleaseNotes": false,
+    "github.copilot.nextEditSuggestions.enabled": false,
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultColorDecorators": "never",
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": "off"
+    },
+    "python.defaultInterpreterPath": "/bin/python",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "explorer.confirmDelete": false,
+    "workbench.browser.showInTitleBar": false,
+    "chat.agent.enabled": false,
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.editor.enablePreview": false,
+    "markdown-preview-github-styles.darkTheme": "light_high_contrast",
+    "markdown-mermaid.lightModeTheme": "default",
+    "markdown-mermaid.darkModeTheme": "dark"
+}

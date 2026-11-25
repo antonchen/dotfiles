@@ -1,0 +1,17 @@
+#!/bin/bash
+
+rofi_poweroff_menu () {
+    printf 'Logout\0icon\x1f<span foreground="#FFFFFF"></span>\nSuspend\0icon\x1f<span foreground="#FFFFFF"></span>\nShutdown\0icon\x1f<span foreground="#FFFFFF"></span>\nReboot\0icon\x1f<span foreground="#FFFFFF"></span>\n' | rofi -show drun -show-icons -l 4 -dmenu -i -p ''
+}
+
+chosen=$(rofi_poweroff_menu)
+
+if [[ $chosen = "Logout" ]]; then
+    bspc quit
+elif [[ $chosen = "Suspend" ]]; then
+    systemctl hibernate
+elif [[ $chosen = "Shutdown" ]]; then
+	systemctl poweroff -i
+elif [[ $chosen = "Reboot" ]]; then
+	systemctl reboot
+fi

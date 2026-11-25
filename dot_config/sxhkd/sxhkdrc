@@ -1,0 +1,90 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+    LANG=en_US.UTF-8 LC_TIME=en_US.UTF-8 kitty
+
+super + p
+    ~/.config/autostart/scripts/launch-polybar
+
+# program launcher
+super + @space
+	rofi -modi drun -show drun -width 5
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+super + l
+    ~/.config/sxhkd/bsplock
+
+XF86AudioLowerVolume
+    ~/.config/polybar/pipewire-control --volume-max 130 down
+XF86AudioRaiseVolume
+    ~/.config/polybar/pipewire-control --volume-max 130 up
+XF86AudioMute
+    ~/.config/polybar/pipewire-control togmute
+
+# App hotkeys
+
+Print
+    scrot -e 'xclip -selection clipboard -t image/png -i $f'
+
+ctrl + alt + a
+    scrot -fs -e 'xclip -selection clipboard -t image/png -i $f && rm -f $f'
+
+super + ctrl + w
+    scrcpy -m 1024 -S
+
+# bspwm hotkeys
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {_,shift + }w
+	bspc node -{c,k}
+
+# Fullscreen
+super + f
+	bspc desktop -l next
+
+# Toggle beetwen floating & tiled
+alt + space
+    bspc node -t "~"{floating,tiled}
+
+# Pseudo Tiled & tiled mode
+super + shift + space
+#super + {p,t}
+    bspc node -t "~"{pseudo_tiled,tiled}
+
+# Set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+# Send the window to another edge of the screen
+super + {_,shift + }{Left,Down,Up,Right}
+	bspc node -{f,s} {west,south,north,east}
+
+# Switch workspace
+super + Tab
+    bspc node -f next.local.!hidden.window
+
+# Switch to last opened workspace
+super + grave
+	bspc desktop -f last
+
+# Send focused window to another workspace
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# Expanding windows
+super + control + {Left,Right,Up,Down}
+	bspc node -z {left -20 0,right 20 0,top 0 -20,bottom 0 20}
+
+# Shrinking windows
+super + alt + {Right,Left,Down,Up}
+	bspc node -z {left 20 0,right -20 0,top 0 20,bottom 0 -20}

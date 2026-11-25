@@ -1,0 +1,11 @@
+[[Rules]]
+Cmd = "go.latest"
+
+[Rules.Spec]
+GoVersionFile = "go.mod"
+GoWork = "auto"
+
+# 单独指定哪个目录使用的 go 版本
+# [[Rules]]
+# Dir = ["~/workspace/fsgo/myserver"]
+# Cmd = "go1.19"

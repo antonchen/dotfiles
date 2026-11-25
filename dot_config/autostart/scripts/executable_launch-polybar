@@ -1,0 +1,12 @@
+#!/bin/bash
+# Terminate already running bar instances
+pkill -15 -x polybar > /dev/null 2>&1
+
+# Wait until the processes have been shut down
+while pgrep -x polybar >/dev/null; do sleep 1; done
+
+# Clear stale padding before the new bar reports its strut.
+bspc config top_padding 0
+
+# Launch Polybar
+polybar top &

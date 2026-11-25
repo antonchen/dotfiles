@@ -1,0 +1,68 @@
+[global]
+    monitor = 0
+    follow = mouse
+    width = 320
+    height = (0, 320)
+    origin = top-right
+    offset = (15, 40)
+    scale = 0
+    notification_limit = 0
+    progress_bar = false
+    indicate_hidden = yes
+    transparency = 0
+    separator_height = 2
+    padding = 10
+    horizontal_padding = 10
+    text_icon_padding = 8
+    frame_width = 1
+    frame_color = "#3B4252"
+    gap_size = 0
+    separator_color = frame
+    sort = yes
+    idle_threshold = 120
+    font = Noto Sans 12
+    line_height = 0
+    markup = full
+    format = "<span foreground='#ECEFF4'><b>%s %p</b></span>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = yes
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+    icon_path = /usr/share/icons/AdwaitaLegacy/16x16/legacy/:/usr/share/icons/AdwaitaLegacy/48x48/legacy/:/usr/share/icons/hicolor/48x48/status/:/usr/share/icons/hicolor/48x48/devices/:/usr/share/icons/hicolor/48x48/apps/
+    sticky_history = yes
+    history_length = 20
+    always_run_script = true
+    corner_radius = 0
+    ignore_dbusclose = false
+    force_xinerama = false
+    mouse_left_click = do_action, close_current
+    mouse_right_click = close_all
+    browser = google-chrome-stable
+
+[urgency_low]
+    background = "#2E3440"
+    foreground = "#D8DEE9"
+    timeout = 30
+    default_icon = dialog-information
+
+[urgency_normal]
+    background = "#2E3440"
+    foreground = "#ECEFF4"
+    timeout = 60
+    override_pause_level = 30
+    default_icon = dialog-information
+
+[urgency_critical]
+    background = "#2E3440"
+    foreground = "#ECEFF4"
+    frame_color = "#d64e4e"
+    timeout = 0
+    override_pause_level = 60
+    default_icon = dialog-warning
