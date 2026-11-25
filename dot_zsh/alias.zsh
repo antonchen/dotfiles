@@ -23,6 +23,10 @@ alias aria2c='aria2c -c -s 5'
 alias g='git'
 alias reload='exec zsh'
 
+if [[ -n $KITTY_WINDOW_ID ]]; then
+    alias ssh='kitten ssh'
+fi
+
 # 直接输入指定后缀文件名，使用指定命令打开
 alias -s js='vim'
 alias -s txt='vim'

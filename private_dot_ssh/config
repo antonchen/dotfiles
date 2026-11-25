@@ -1,5 +1,3 @@
-Include ~/.ssh/hosts
-
 Host *
     ConnectTimeout 5
     ConnectionAttempts 3
@@ -13,4 +11,8 @@ Host *
     HashKnownHosts no
     LogLevel=ERROR
     GSSAPIAuthentication no
+
+Include ~/.ssh/hosts
+
+Host *
     User root
