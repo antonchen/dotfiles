@@ -1,0 +1,16 @@
+Include ~/.ssh/hosts
+
+Host *
+    ConnectTimeout 5
+    ConnectionAttempts 3
+    ServerAliveInterval 15
+    ServerAliveCountMax 3
+    ControlMaster auto
+    ControlPath ~/.ssh/session/%h-%p-%r
+    ControlPersist 6h
+    StrictHostKeyChecking=off
+    UserKnownHostsFile /dev/null
+    HashKnownHosts no
+    LogLevel=ERROR
+    GSSAPIAuthentication no
+    User root
